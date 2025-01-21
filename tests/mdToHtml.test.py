@@ -6,6 +6,11 @@ test_cases_headings = [
         "expected": '<h1 class="h1">I am h1</h1>',
     },
     {
+        'description': 'When # is not the first character of the line, it is not heading',
+        'input': ' # not h',
+        'expected': ' # not h'
+    },
+    {
         "description": 'Backshlash before hash is no h1',
         "input": '\# I am not h1',
         "expected": r'\# I am not h1'
