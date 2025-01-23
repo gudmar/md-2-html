@@ -1,4 +1,4 @@
-class Fsm_states:
+class md_parser_fsm_states:
     reading_unknown = 'reading unknown',
     new_line = 'starting new line',
     reading_h_start_tag = 'reading heading start tag',
