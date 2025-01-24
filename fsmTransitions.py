@@ -1,4 +1,4 @@
-from fsmStates import Fsm_states
+from md_parser_fsm_states import Fsm_states
 from utils import *
 
 def end_previous_state(parser_state):
@@ -14,6 +14,7 @@ def process_new_line(parser_state):
     if check_if_blank_not_new_line(character):
         parser_state.append_word()
         return True
+    if 
     parser_state.set_fsm_state(Fsm_states.reading_unknown)
 
 def process_unknown(parser_state):
