@@ -1,4 +1,5 @@
 from rich import print
+import traceback
 
 def get_fail_message(description, expected, result):
     return '''
@@ -7,14 +8,22 @@ def get_fail_message(description, expected, result):
     [red]received [{}][/]
     '''.format(description, expected, result)
 
+def get_exception_message(description, expected, result):
+    return '''
+    [bold red]:warning:[/][black on red]Exception during test[/] [[bold red]{}[/]].
+    [green]Expected [{}][/],
+    [red]received [{}][/]
+    '''.format(description, expected, result)
+
+
 def get_fail_report(*args):
     description, expected, result = args
-    message = get_fail_message(args)
+    message = get_fail_message(*args)
     return {
-        description:description,
-        expected:expected,
-        result:result,
-        message:message,
+        "description": description,
+        "expected": expected,
+        "result": result,
+        "message": message,
     }
 
 def get_error_report(*args):
@@ -39,9 +48,12 @@ def run_tests(test_cases, tested_function):
             else:
                 failed.append(get_fail_report(test_case['description'], test_case['expected'], result))
         except Exception as error:
-            failed.append(get_fail_message(test_case['description'], test_case['expected'], result))
+            # failed.append(get_fail_message(test_case['description'], test_case['expected'], result))
+            failed.append(get_exception_message(test_case['description'], test_case['expected'], error))
+            failed.append(traceback.format_exc())
+            print(traceback.format_exc())
     print('[blue]Executed: {}[/], [green]passed: {}[/], [red]failed: {}[/]'.format(len(test_cases), len(passed), len(failed)))
     print('Failed:')
     for fail in failed:
         # print(fail['message'])
-        print(fail)
+        print(fail["message"])

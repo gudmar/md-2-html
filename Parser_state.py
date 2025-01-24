@@ -1,4 +1,4 @@
-from fsmStates import Fsm_states
+from md_parser_fsm_states import Fsm_states
 
 class Parser_state:
     empty_token = None

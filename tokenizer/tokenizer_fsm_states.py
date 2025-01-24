@@ -7,4 +7,5 @@ class Tokenizer_fsm_states:
     reading_ul_item = 'reading ul item'
     reading_hr = 'reading horizontal line token'
     reading_ol_item = 'reading ordered list item'
+    end = 'end'
     

@@ -1,7 +1,7 @@
 from utils import *
-from tokenizer_utils import *
-from Tokenizer_fsm_states import Tokenizer_fsm_states
-from fsmTokenTypes import Token_types
+from tokenizer.tokenizer_utils import *
+from tokenizer.tokenizer_fsm_states import Tokenizer_fsm_states
+from tokenizer.fsmTokenTypes import Token_types
 from functools import reduce
 
 tokenizer_from_start_line_transitions = [
@@ -23,12 +23,22 @@ tokenizer_from_start_line_transitions = [
         'trigger_function': check_if_minus_character,
         'action': save_character,
     },
-        {
+    {
         'start_state': Tokenizer_fsm_states.start_line,
         'next_state' : Tokenizer_fsm_states.reading_word,
         'trigger_function': check_if_indention_to_word_trigger,
         'action': save_character,
     },
+    {
+        'start_state': Tokenizer_fsm_states.start_line,
+        'next_state' : Tokenizer_fsm_states.end,
+        'trigger_function': check_if_indention_to_word_trigger,
+        'action': () => {
+            save_character()
+            
+        }
+    },
+
 ]
 
 tokenizer_from_reading_indention_transitions = [
@@ -69,7 +79,8 @@ tokenizer_from_reading_heading_transitions = [
         'start_state' : Tokenizer_fsm_states.reading_heading,
         'next_state': Tokenizer_fsm_states.reading_spaces,
         'trigger_function': check_if_white_space,
-        'action': get_save_heading_token(Token_types.indention),
+        'action': get_save_heading_token(),
+        # 'action': get_save_heading_token(Token_types.indention),
     },
     {
         'start_state' : Tokenizer_fsm_states.reading_heading,
@@ -127,6 +138,6 @@ def flatten(acc, arr):
     acc.extend(arr)
     return acc
 
-tokenizer_transitions = reduce(flatten, [])
+tokenizer_transitions = reduce(flatten, tokenizer_transition_lists, [])
 
 

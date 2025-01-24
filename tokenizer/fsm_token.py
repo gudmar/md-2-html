@@ -1,4 +1,6 @@
-from fsmTokenTypes import Token_types
+# Below needs fixing. If run from not tests may cause problems,
+# perhaps conditional statement, or a test framework
+from tokenizer.fsmTokenTypes import Token_types
 
 class Token:
     type = Token_types.undefined
