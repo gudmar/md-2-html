@@ -9,7 +9,8 @@ tokenizer_test_cases = [
     {
         'description':'Should recognize indention',
         'input': ' ',
-        'expected': [Token(value=' ', token_type=Token_types.indention)]
+        'expected': [Token(value=' ', token_type=Token_types.indention)],
+        # 'comparition': lambda a, b: a.__dict__ == b.__dict__
     },
     # {
     #     'description': 'Should recognize a word token',

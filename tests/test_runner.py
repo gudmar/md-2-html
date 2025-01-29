@@ -43,8 +43,11 @@ def run_tests(test_cases, tested_function):
         try:
             result = tested_function(test_case['input'])
             is_passed = result == test_case['expected']
+            # is_passed = test_case["comparition"](result, test_case['expected'])
+            print(result)
+            print(test_case['expected'])
             if is_passed:
-                failed.append(test_case['description'])
+                passed.append(test_case['description'])
             else:
                 failed.append(get_fail_report(test_case['description'], test_case['expected'], result))
         except Exception as error:
@@ -53,7 +56,8 @@ def run_tests(test_cases, tested_function):
             failed.append(traceback.format_exc())
             print(traceback.format_exc())
     print('[blue]Executed: {}[/], [green]passed: {}[/], [red]failed: {}[/]'.format(len(test_cases), len(passed), len(failed)))
-    print('Failed:')
+    # print('Failed:')
     for fail in failed:
+        # print(fail)
         # print(fail['message'])
         print(fail["message"])
