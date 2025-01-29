@@ -1,6 +1,8 @@
 from tokenizer.fsm_token import Token
 from tokenizer.fsmTokenTypes import Token_types
 import re
+from tokenizer.const import end_of_data_stream
+from tokenizer.tokenizer_fsm_states import Tokenizer_fsm_states
 
 def check_if_white_space(character):
     return character.strip() == ''
@@ -27,7 +29,7 @@ def check_if_heading_character(state):
     is_every_word_symbol_a_hash = all((character == '#' for character in state.processed_word))
     return is_every_word_symbol_a_hash
 
-def get_save_heading_token(state):
+def get_save_heading_token():
     # heading_severity = len(state.processed_word)
     severity_to_type_map = {
         1: Token_types.h1,
@@ -97,10 +99,29 @@ def get_acceptable_token_type(state, acceptableTypes):
     if (suggested_type in acceptableTypes): return suggested_type
     return Token_types.word
 
+def get_acceptable_token_creator(acceptableTypes):
+    return lambda state: get_acceptable_token_creator(state, acceptableTypes)
+
 def create_token(state, acceptableTypes):
     token_type = get_acceptable_token_type(state, acceptableTypes)
     return Token(token_type, value=state.processed_word)
 
-def endFromStartLine(state):
-    save_character(state)
+def end_from_start_line(state):
+    token = create_token(state, 'ALL')
+    print('Token is')
+    print(token)
+    pass
 
+def check_if_end_of_file(state):
+    return state.character == end_of_data_stream
+
+def get_end_data_stream(acceptable_token_types):
+    def end_data_stream(state):
+        state.processed_word = state.processed_word + state.character
+        state.character = ''
+        state.fsm_state = Tokenizer_fsm_states.end
+        token_type = get_acceptable_token_type(state, acceptable_token_types)
+        new_token = Token(token_type=token_type, value=state.processed_word)
+        state.processed_word = ''
+        state.output.push(new_token)
+    

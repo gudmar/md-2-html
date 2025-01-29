@@ -1,5 +1,6 @@
 from tokenizer.tokenizer_state import Tokenizer_state
 from tokenizer.tokenizer_transitions import tokenizer_transitions
+from tokenizer.const import end_of_data_stream
 
 def get_next_state_recipe(fsm_state, transitions):
     for recipe in transitions:
@@ -21,4 +22,6 @@ def get_tokens(text):
     for character in text:
         fsm_state.character = character
         process_tokenizer_state(fsm_state)
+    fsm_state.character = end_of_data_stream
+    process_tokenizer_state(fsm_state) # this is for the end of the file
     return fsm_state.output

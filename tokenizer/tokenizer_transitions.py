@@ -32,11 +32,8 @@ tokenizer_from_start_line_transitions = [
     {
         'start_state': Tokenizer_fsm_states.start_line,
         'next_state' : Tokenizer_fsm_states.end,
-        'trigger_function': check_if_indention_to_word_trigger,
-        'action': () => {
-            save_character()
-            
-        }
+        'trigger_function': check_if_end_of_file,
+        'action': end_from_start_line
     },
 
 ]
@@ -60,11 +57,18 @@ tokenizer_from_reading_indention_transitions = [
         'trigger_function': check_if_minus_character,
         'action': get_save_token(Token_types.indention),
     },
-        {
+    {
         'start_state': Tokenizer_fsm_states.reading_indentions,
         'next_state' : Tokenizer_fsm_states.reading_word,
         'trigger_function': check_if_indention_to_word_trigger,
         'action': get_save_token(Token_types.indention),
+    },
+    {
+        'start_state': Tokenizer_fsm_states.reading_indentions,
+        'next_state' : Tokenizer_fsm_states.end,
+        'trigger_function': check_if_end_of_file,
+        'action': get_end_data_stream([Token_types.indention]),
+        # 'action': get_save_token(Token_types.indention),
     },
 ]
 
@@ -88,6 +92,21 @@ tokenizer_from_reading_heading_transitions = [
         'trigger_function': isTrue,
         'action': save_character,
     },
+    {
+        'start_state' : Tokenizer_fsm_states.reading_heading,
+        'next_state': Tokenizer_fsm_states.end,
+        'trigger_function': check_if_end_of_file,
+        'action': get_end_data_stream([
+            Token_types.h1,
+            Token_types.h2,
+            Token_types.h3,
+            Token_types.h4,
+            Token_types.h5,
+            Token_types.h6,
+            Token_types.new_line,
+            Token_types.word,
+        ]),
+    },
 ]
 
 tokenizer_from_reading_ul_item_transitions = [
@@ -109,6 +128,15 @@ tokenizer_from_reading_ul_item_transitions = [
         'trigger_function': isTrue,
         'action': save_character,
     },
+    {
+        'start_state' : Tokenizer_fsm_states.reading_ul_item,
+        'next_state': Tokenizer_fsm_states.end,
+        'trigger_function': check_if_end_of_file,
+        'action': get_end_data_stream([
+            Token_types.ul_item,
+            Token_types.word,
+        ]),
+    },
 ]
 
 tokenizer_from_reading_word_transitions = [
@@ -123,6 +151,14 @@ tokenizer_from_reading_word_transitions = [
         'next_state': Tokenizer_fsm_states.reading_word,
         'trigger_function': isTrue,
         'action': save_character,
+    },
+    {
+        'start_state' : Tokenizer_fsm_states.reading_ul_item,
+        'next_state': Tokenizer_fsm_states.end,
+        'trigger_function': check_if_end_of_file,
+        'action': get_end_data_stream([
+            Token_types.word,
+        ]),
     },
 ]
 
