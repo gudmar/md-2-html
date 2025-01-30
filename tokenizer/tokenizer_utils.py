@@ -72,7 +72,7 @@ def check_if_indention_to_word_trigger(state):
         if (is_not_trigger): return False
     return True
 
-def isTrue(state): True
+def isTrue(state): return True
 
 def identify_token(state):
     heading_token_type = get_heading_token_type_if_heading(state)
@@ -117,11 +117,12 @@ def check_if_end_of_file(state):
 
 def get_end_data_stream(acceptable_token_types):
     def end_data_stream(state):
-        state.processed_word = state.processed_word + state.character
+        # state.processed_word = state.processed_word + state.character
         state.character = ''
         state.fsm_state = Tokenizer_fsm_states.end
         token_type = get_acceptable_token_type(state, acceptable_token_types)
         new_token = Token(token_type=token_type, value=state.processed_word)
         state.processed_word = ''
-        state.output.push(new_token)
+        state.output.append(new_token)
+    return end_data_stream
     

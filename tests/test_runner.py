@@ -53,7 +53,7 @@ def run_tests(test_cases, tested_function):
         except Exception as error:
             # failed.append(get_fail_message(test_case['description'], test_case['expected'], result))
             failed.append(get_exception_message(test_case['description'], test_case['expected'], error))
-            failed.append(traceback.format_exc())
+            # failed.append(traceback.format_exc())
             print(traceback.format_exc())
     print('[blue]Executed: {}[/], [green]passed: {}[/], [red]failed: {}[/]'.format(len(test_cases), len(passed), len(failed)))
     # print('Failed:')
