@@ -58,6 +58,5 @@ def run_tests(test_cases, tested_function):
     print('[blue]Executed: {}[/], [green]passed: {}[/], [red]failed: {}[/]'.format(len(test_cases), len(passed), len(failed)))
     # print('Failed:')
     for fail in failed:
-        # print(fail)
+        print(fail)
         # print(fail['message'])
-        print(fail["message"])

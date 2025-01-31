@@ -3,9 +3,9 @@ from tokenizer.tokenizer_transitions import tokenizer_transitions
 from tokenizer.const import end_of_data_stream
 
 def get_next_state_recipe(fsm_state, transitions):
-    for recipe in transitions:
-        print('{},{}, {}, {}'.format(fsm_state, recipe['start_state'], fsm_state.fsm_state == recipe['start_state'], recipe['trigger_function'](fsm_state)))
+    for recipe in transitions:        
         if fsm_state.fsm_state == recipe['start_state'] and recipe['trigger_function'](fsm_state):
+            print('{},{} => {}'.format(fsm_state, recipe['start_state'], recipe['next_state']))
             return recipe
     return None
 

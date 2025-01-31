@@ -12,10 +12,6 @@ class Token:
         if value: self.value = value
 
     def __eq__(self, obj):
-        print(self.type == obj.type and self.value == obj.value)
-        print('{} {}'.format(self.type, obj.type))
-        print('{} {}'.format(self.__getattribute__('type'), obj.__getattribute__('type')))
-        print('{} {}'.format(self.value, obj.value))
         return self.type == obj.type and self.value == obj.value
 
     def __str__(self):
